@@ -131,6 +131,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
+  math_parser:
+    dependency: "direct main"
+    description:
+      name: math_parser
+      sha256: "8e21a9b8679f0c3dd1d77dd9b49d536d38cda0dc68906c1b94e383145381ce32"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   meta:
     dependency: transitive
     description:
