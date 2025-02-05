@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
@@ -18,12 +17,14 @@ class CalculatorApp extends StatelessWidget {
 
 class CalculatorScreen extends StatefulWidget {
   @override
-  _CalculatorScreenState createState() => _CalculatorScreenState();
+  CalculatorScreenState createState() => CalculatorScreenState();
 }
 
-class _CalculatorScreenState extends State<CalculatorScreen> {
+class CalculatorScreenState extends State<CalculatorScreen> {
   String input = "";
   String result = "0";
+  List<String> history = [];
+  bool showHistory = false;
 
   void buttonPressed(String value) {
     setState(() {
@@ -41,8 +42,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           ContextModel cm = ContextModel();
           double eval = exp.evaluate(EvaluationType.REAL, cm);
           result = eval.toString();
+          history.add("$input = $result");
         } catch (e) {
-          result = "خطا!";
+          result = "error";
         }
       } else {
         input += value;
@@ -50,15 +52,25 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     });
   }
 
-  Widget buildButton(String text, {Color? color}) {
+  Widget buildButton(String text) {
+    bool isOperator = "+-*/%⌫".contains(text);
+    bool isEqualButton = text == "=";
     return Expanded(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(24),
-          backgroundColor: color ?? Colors.grey[300],
+          backgroundColor: isEqualButton ? Colors.orange : Colors.white,
         ),
         onPressed: () => buttonPressed(text),
-        child: Text(text, style: TextStyle(fontSize: 24, color: Colors.black)),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 24,
+            color: isOperator
+                ? Colors.orange
+                : (isEqualButton ? Colors.white : Colors.black),
+          ),
+        ),
       ),
     );
   }
@@ -66,51 +78,88 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Calculator")),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.all(16),
-              child: Text(input, style: TextStyle(fontSize: 32)),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            GestureDetector(
+              onTap: () => setState(() => showHistory = false),
+              child: Text("Calculator",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: showHistory ? Colors.grey : Colors.black)),
             ),
-          ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.all(16),
-              child: Text(result,
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+            GestureDetector(
+              onTap: () => setState(() => showHistory = true),
+              child: Text("History",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: showHistory ? Colors.black : Colors.grey)),
             ),
-          ),
-          Row(children: [
-            buildButton("7"),
-            buildButton("8"),
-            buildButton("9"),
-            buildButton("/", color: Colors.orange)
-          ]),
-          Row(children: [
-            buildButton("4"),
-            buildButton("5"),
-            buildButton("6"),
-            buildButton("*", color: Colors.orange)
-          ]),
-          Row(children: [
-            buildButton("1"),
-            buildButton("2"),
-            buildButton("3"),
-            buildButton("-", color: Colors.orange)
-          ]),
-          Row(children: [
-            buildButton("0"),
-            buildButton("⌫", color: Colors.blue),
-            buildButton("C", color: Colors.red),
-            buildButton("=", color: Colors.green),
-            buildButton("+", color: Colors.orange)
-          ]),
-        ],
+          ],
+        ),
       ),
+      body: showHistory
+          ? ListView.builder(
+              itemCount: history.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(history[index], style: TextStyle(fontSize: 18)),
+                );
+              },
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.all(16),
+                    child: Text(input, style: TextStyle(fontSize: 32)),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.all(16),
+                    child: Text(result,
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                Row(
+                  children: [
+                    buildButton("C"),
+                    buildButton("⌫"),
+                    buildButton("%"),
+                    buildButton("/")
+                  ],
+                ),
+                Row(children: [
+                  buildButton("7"),
+                  buildButton("8"),
+                  buildButton("9"),
+                  buildButton("*")
+                ]),
+                Row(children: [
+                  buildButton("4"),
+                  buildButton("5"),
+                  buildButton("6"),
+                  buildButton("-")
+                ]),
+                Row(children: [
+                  buildButton("1"),
+                  buildButton("2"),
+                  buildButton("3"),
+                  buildButton("+")
+                ]),
+                Row(children: [
+                  buildButton("2st"),
+                  buildButton("0"),
+                  buildButton("."),
+                  buildButton("=")
+                ]),
+              ],
+            ),
     );
   }
 }
