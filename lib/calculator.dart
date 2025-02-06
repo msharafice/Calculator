@@ -15,7 +15,7 @@ class CalculatorScreenState extends State<CalculatorScreen> {
   bool showAdvancedKeyboard = false;
   bool showSecond = false;
   bool isDegDisabled = false;
-  bool isDegreeMode = true; 
+  bool isDegreeMode = true;
   List<String> history = [];
   bool showHistory = false;
 
@@ -41,6 +41,12 @@ class CalculatorScreenState extends State<CalculatorScreen> {
                   (match) => 'cos((${match[1]} * pi / 180))')
               .replaceAllMapped(RegExp(r'tan\s*\(?([\d.]+)\)?'),
                   (match) => 'tan((${match[1]} * pi / 180))')
+              .replaceAllMapped(RegExp(r'sin⁻¹\s*\(?([\d.]+)\)?'),
+                  (match) => '(asin(${match[1]}) * 180 / pi)')
+              .replaceAllMapped(RegExp(r'cos⁻¹\s*\(?([\d.]+)\)?'),
+                  (match) => '(acos(${match[1]}) * 180 / pi)')
+              .replaceAllMapped(RegExp(r'tan⁻¹\s*\(?([\d.]+)\)?'),
+                  (match) => '(atan(${match[1]}) * 180 / pi)')
               .replaceAll("π", "pi")
               .replaceAllMapped(
                 RegExp(r'√\(?([\d.]+)\)?'),
@@ -96,11 +102,13 @@ class CalculatorScreenState extends State<CalculatorScreen> {
       }
     });
   }
+
   void toggleDegRad() {
-  setState(() {
-    isDegreeMode = !isDegreeMode;
-  });
-}
+    setState(() {
+      isDegreeMode = !isDegreeMode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,7 +165,7 @@ class CalculatorScreenState extends State<CalculatorScreen> {
                   buildAdvancedKeyboard(buttonPressed),
                 // advanced 2nd keyboard
                 if (showSecond) buildSecondKeyboard(buttonPressed),
-                
+
                 // defult keyboard
                 if (!showSecond && !showAdvancedKeyboard)
                   buildDefaultKeyboard(buttonPressed),
