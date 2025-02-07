@@ -65,7 +65,16 @@ class CalculatorScreenState extends State<CalculatorScreen> {
           result = "خطا";
         }
       } else if (value == "2st") {
-        showAdvancedKeyboard = !showAdvancedKeyboard;
+        setState(() {
+          if (showSecond) {
+            showSecond = false;
+            showAdvancedKeyboard =
+                !showAdvancedKeyboard; // وقتی در حالت "Second" هستیم، آن را غیرفعال می‌کنیم
+          } else {
+            showAdvancedKeyboard =
+                !showAdvancedKeyboard; // برای سایر موارد نمایش کیبورد پیشرفته یا نه
+          }
+        });
       } else if (value == "2nd") {
         // تغییر حالت صفحه‌کلید پیشرفته
         setState(() {
