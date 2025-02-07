@@ -18,7 +18,7 @@ This project is a simple calculator app built using Flutter. The app allows user
 
 ## Screenshots:
 <img src="assets/calc1.jpg" width="300" height="500"/>
-<img src="assets/calc1.jpg" width="300" height="500"/>
+<img src="assets/calc2.jpg" width="300" height="500"/>
 
 ## Technologies:
 - Flutter
