@@ -17,12 +17,8 @@ This project is a simple calculator app built using Flutter. The app allows user
 5. Use the "Clear" button to reset the calculator.
 
 ## Screenshots:
-![Calculator Screenshot](assets/calc1.jpg)
-
-![Calculator Screenshot](assets/calc2.jpg)
-
-
-<img src="assets/calc1.jpg" width="300" height="400"/>
+<img src="assets/calc1.jpg" width="300" height="500"/>
+<img src="assets/calc1.jpg" width="300" height="500"/>
 
 ## Technologies:
 - Flutter
