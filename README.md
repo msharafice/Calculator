@@ -18,6 +18,7 @@ This project is a simple calculator app built using Flutter. The app allows user
 
 ## Screenshots:
 ![Calculator Screenshot](assets/calc1.jpg)
+
 ![Calculator Screenshot](assets/calc2.jpg)
 
 ## Technologies:
